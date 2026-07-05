@@ -38,8 +38,6 @@ calculation, the FBR API client, and the client-side "Send to FBR" button.
 - ERPNext: v16.x
 - Python: 3.14.x (Frappe v16's required interpreter version)
 
-> Upgrading from the v15 build of this app? See [Upgrading from v15](#upgrading-from-v15) below.
-
 ---
 
 ## Installation
