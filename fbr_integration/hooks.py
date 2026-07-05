@@ -2,7 +2,7 @@ app_name = "fbr_integration"
 app_title = "FBR Integration"
 app_publisher = "FBR Pakistan / ERPNext Pakistan Community"
 app_description = "FBR (Federal Board of Revenue) Digital Invoicing Integration for ERPNext / Frappe v16"
-app_email = "taimoor986@gmail.com"
+app_email = "mail@agrovisions.com"
 app_license = "MIT"
 app_version = "2.0.0"
 
@@ -58,3 +58,17 @@ after_install = "fbr_integration.setup.install.after_install"
 # Whitelisted API surface used by the client script
 # --------------------------------------------------
 # fbr_integration.fbr_integration.handler.send_to_fbr_si
+
+# Desktop / App switcher icon
+# ----------------------------
+app_logo_url = "/assets/fbr_integration/images/fbr_integration-logo.svg"
+
+add_to_apps_screen = [
+	{
+		"name": "fbr_integration",
+		"logo": "/assets/fbr_integration/images/fbr_integration-logo.svg",
+		"title": "FBR Integration",
+		"route": "/app/fbr-integration",
+	}
+]
+
