@@ -51,24 +51,9 @@ bench get-app https://github.com/Tariquaf/FBR-Pakistan.git
 
 bench --site site1.local install-app fbr_integration
 bench build
-bench --site site1.local migrate
-bench restart
+bench --site site1.local migrate && bench restart
 ```
 
-If you'd rather host it on GitHub first:
-
-```bash
-cd apps/fbr_integration
-git init
-git add .
-git commit -m "FBR Integration v1.0.0"
-git remote add origin https://github.com/<your-org>/fbr_integration.git
-git push -u origin main
-
-# On the target bench:
-bench get-app https://github.com/<your-org>/fbr_integration.git --branch main
-bench --site site1.local install-app fbr_integration
-```
 
 ### PDF / printing (no wkhtmltopdf needed)
 
