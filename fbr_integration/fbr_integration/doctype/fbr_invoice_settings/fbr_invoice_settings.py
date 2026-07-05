@@ -5,5 +5,5 @@ import frappe
 from frappe.model.document import Document
 
 
-class FbrInvoiceSettings(Document):
+class FBRInvoiceSettings(Document):
 	pass

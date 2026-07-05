@@ -5,5 +5,5 @@ import frappe
 from frappe.model.document import Document
 
 
-class SroScheduleNo(Document):
+class SROScheduleNo(Document):
 	pass

@@ -5,5 +5,5 @@ import frappe
 from frappe.model.document import Document
 
 
-class SroItemSno(Document):
+class SROItemSNo(Document):
 	pass

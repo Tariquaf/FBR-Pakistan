@@ -5,5 +5,5 @@ import frappe
 from frappe.model.document import Document
 
 
-class ScenarioId(Document):
+class ScenarioID(Document):
 	pass

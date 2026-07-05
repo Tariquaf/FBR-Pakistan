@@ -5,5 +5,5 @@ import frappe
 from frappe.model.document import Document
 
 
-class FbrUom(Document):
+class FBRUoM(Document):
 	pass

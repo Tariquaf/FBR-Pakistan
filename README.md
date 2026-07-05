@@ -38,6 +38,8 @@ calculation, the FBR API client, and the client-side "Send to FBR" button.
 - ERPNext: v16.x
 - Python: 3.14.x (Frappe v16's required interpreter version)
 
+> Upgrading from the v15 build of this app? See [Upgrading from v15](#upgrading-from-v15) below.
+
 ---
 
 ## Installation
@@ -45,13 +47,31 @@ calculation, the FBR API client, and the client-side "Send to FBR" button.
 ```bash
 cd ~/frappe-bench
 
-bench get-app https://github.com/Tariquaf/FBR-Pakistan.git
+# Copy this app into apps/fbr_integration, e.g. by extracting the provided
+# zip there, or by pushing it to your own git remote and using bench get-app.
+# If you already have it locally:
+cp -r /path/to/fbr_integration apps/fbr_integration
 
 bench --site site1.local install-app fbr_integration
 bench build
-bench --site site1.local migrate && bench restart
+bench --site site1.local migrate
+bench restart
 ```
 
+If you'd rather host it on GitHub first:
+
+```bash
+cd apps/fbr_integration
+git init
+git add .
+git commit -m "FBR Integration v1.0.0"
+git remote add origin https://github.com/<your-org>/fbr_integration.git
+git push -u origin main
+
+# On the target bench:
+bench get-app https://github.com/<your-org>/fbr_integration.git --branch main
+bench --site site1.local install-app fbr_integration
+```
 
 ### PDF / printing (no wkhtmltopdf needed)
 
@@ -121,6 +141,33 @@ bench --site site1.local execute fbr_integration.setup.install.after_install
   same way custom fields are.
 
 ---
+
+## Upgrading from v15
+
+This app was originally built against Frappe/ERPNext v15. If you're moving
+an existing site from v15 to v16:
+
+1. Upgrade the bench/site to Frappe & ERPNext v16 first (see the
+   [official v15 → v16 migration guide](https://github.com/frappe/frappe/wiki/Migrating-to-version-16)),
+   including moving the site's Python environment to 3.14.
+2. Replace this app's code in `apps/fbr_integration` with the v16 version
+   (this package), keeping the same `app_name` (`fbr_integration`) so
+   existing data/custom fields are recognized rather than duplicated.
+3. Run `bench --site <site> migrate` — fixtures are declarative, so any
+   custom fields that already exist are left as-is; only missing ones are
+   created.
+4. Nothing needs to change in **FBR Invoice Settings** — your Sandbox/
+   Production URLs and tokens carry over unchanged.
+5. Confirm printing still works: v16 defaults to the new Chrome-based PDF
+   generator, so remove any `wkhtmltopdf_path` override only if you want to
+   stop using wkhtmltopdf for other print formats too.
+6. Re-test the "Send to FBR" button in Sandbox mode before flipping any
+   Production invoices, since v16 changed some Desk form-controller and
+   list-view internals (see the [v16 release notes](https://frappe.io/framework/version-16))
+   that are unrelated to this app's logic but worth a smoke test.
+
+---
+
 ## Troubleshooting
 
 **UnicodeDecodeError (0x96 / 0x92, etc.)** — re-save any JS/PY file you edit
