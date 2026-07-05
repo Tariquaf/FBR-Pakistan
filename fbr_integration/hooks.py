@@ -2,7 +2,7 @@ app_name = "fbr_integration"
 app_title = "FBR Integration"
 app_publisher = "FBR Pakistan / ERPNext Pakistan Community"
 app_description = "FBR (Federal Board of Revenue) Digital Invoicing Integration for ERPNext / Frappe v16"
-app_email = "taimoor986@gmail.com"
+app_email = "mail@agrovisions.com"
 app_license = "MIT"
 app_version = "2.0.0"
 
