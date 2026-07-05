@@ -1,6 +1,7 @@
 [
  {
   "doctype": "Custom Field",
+  "name": "Item-custom_fbr_section",
   "dt": "Item",
   "fieldname": "custom_fbr_section",
   "label": "FBR Pakistan",
@@ -15,6 +16,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Item-custom_hs_code",
   "dt": "Item",
   "fieldname": "custom_hs_code",
   "label": "HS Code",
@@ -30,6 +32,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Item-custom_fbr_uom",
   "dt": "Item",
   "fieldname": "custom_fbr_uom",
   "label": "FBR UoM",
@@ -45,6 +48,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Item-custom_column_break_fbr_1",
   "dt": "Item",
   "fieldname": "custom_column_break_fbr_1",
   "label": "",
@@ -59,6 +63,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Item-custom_sale_type",
   "dt": "Item",
   "fieldname": "custom_sale_type",
   "label": "Sale Type",
@@ -74,6 +79,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Item-custom_sro_schedule_no",
   "dt": "Item",
   "fieldname": "custom_sro_schedule_no",
   "label": "SRO Schedule No",
@@ -89,6 +95,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Item-custom_sro_item_sno",
   "dt": "Item",
   "fieldname": "custom_sro_item_sno",
   "label": "SRO Item SNo",
@@ -104,6 +111,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Customer-custom_fbr_section",
   "dt": "Customer",
   "fieldname": "custom_fbr_section",
   "label": "FBR Pakistan",
@@ -118,6 +126,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Customer-custom_tax_payer_type",
   "dt": "Customer",
   "fieldname": "custom_tax_payer_type",
   "label": "Tax Payer Type",
@@ -133,6 +142,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Customer-custom_buyer_province",
   "dt": "Customer",
   "fieldname": "custom_buyer_province",
   "label": "Buyer Province",
@@ -148,6 +158,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice-custom_fbr_tab",
   "dt": "Sales Invoice",
   "fieldname": "custom_fbr_tab",
   "label": "FBR Pakistan",
@@ -162,6 +173,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice-custom_scenario_id",
   "dt": "Sales Invoice",
   "fieldname": "custom_scenario_id",
   "label": "Scenario ID",
@@ -177,6 +189,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice-custom_scenario_detail",
   "dt": "Sales Invoice",
   "fieldname": "custom_scenario_detail",
   "label": "Scenario Detail",
@@ -192,6 +205,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice-custom_invoice_type",
   "dt": "Sales Invoice",
   "fieldname": "custom_invoice_type",
   "label": "Invoice Type",
@@ -207,6 +221,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice-custom_col_break_fbr_1",
   "dt": "Sales Invoice",
   "fieldname": "custom_col_break_fbr_1",
   "label": "",
@@ -221,6 +236,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice-custom_tax_payer_type",
   "dt": "Sales Invoice",
   "fieldname": "custom_tax_payer_type",
   "label": "Tax Payer Type",
@@ -237,6 +253,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice-custom_buyer_province",
   "dt": "Sales Invoice",
   "fieldname": "custom_buyer_province",
   "label": "Buyer Province",
@@ -253,6 +270,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice-custom_fbr_response_section",
   "dt": "Sales Invoice",
   "fieldname": "custom_fbr_response_section",
   "label": "FBR Response",
@@ -267,6 +285,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice-custom_fbr_integration_type",
   "dt": "Sales Invoice",
   "fieldname": "custom_fbr_integration_type",
   "label": "FBR Integration Type",
@@ -281,6 +300,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice-custom_fbr_invoice_no",
   "dt": "Sales Invoice",
   "fieldname": "custom_fbr_invoice_no",
   "label": "FBR Invoice No",
@@ -295,6 +315,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice-custom_fbr_submission_time",
   "dt": "Sales Invoice",
   "fieldname": "custom_fbr_submission_time",
   "label": "FBR Submission Time",
@@ -309,6 +330,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice-custom_col_break_fbr_2",
   "dt": "Sales Invoice",
   "fieldname": "custom_col_break_fbr_2",
   "label": "",
@@ -323,6 +345,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice-custom_fbr_invoice_status",
   "dt": "Sales Invoice",
   "fieldname": "custom_fbr_invoice_status",
   "label": "FBR Invoice Status",
@@ -337,6 +360,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice-custom_fbr_invoice_status_code",
   "dt": "Sales Invoice",
   "fieldname": "custom_fbr_invoice_status_code",
   "label": "FBR Invoice Status Code",
@@ -351,6 +375,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice-custom_fbr_responsed",
   "dt": "Sales Invoice",
   "fieldname": "custom_fbr_responsed",
   "label": "FBR Responsed",
@@ -365,6 +390,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice-custom_fbr_qr_code",
   "dt": "Sales Invoice",
   "fieldname": "custom_fbr_qr_code",
   "label": "FBR QR Code",
@@ -379,6 +405,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice-custom_fbr_invoice_error",
   "dt": "Sales Invoice",
   "fieldname": "custom_fbr_invoice_error",
   "label": "FBR Invoice Error",
@@ -393,6 +420,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice-custom_fbr_invoice_item_no",
   "dt": "Sales Invoice",
   "fieldname": "custom_fbr_invoice_item_no",
   "label": "FBR Invoice Item No",
@@ -407,6 +435,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice-custom_fbr_invoice_statuses",
   "dt": "Sales Invoice",
   "fieldname": "custom_fbr_invoice_statuses",
   "label": "FBR Invoice Statuses",
@@ -421,6 +450,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice-custom_fbr_digital_invoice_response",
   "dt": "Sales Invoice",
   "fieldname": "custom_fbr_digital_invoice_response",
   "label": "FBR Digital Invoice Response",
@@ -435,6 +465,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice Item-custom_fbr_section",
   "dt": "Sales Invoice Item",
   "fieldname": "custom_fbr_section",
   "label": "FBR Pakistan",
@@ -449,6 +480,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice Item-custom_hs_code",
   "dt": "Sales Invoice Item",
   "fieldname": "custom_hs_code",
   "label": "HS Code",
@@ -465,6 +497,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice Item-custom_fbr_uom",
   "dt": "Sales Invoice Item",
   "fieldname": "custom_fbr_uom",
   "label": "FBR UoM",
@@ -481,6 +514,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice Item-custom_col_break_fbr_item_1",
   "dt": "Sales Invoice Item",
   "fieldname": "custom_col_break_fbr_item_1",
   "label": "",
@@ -495,6 +529,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice Item-custom_sale_type",
   "dt": "Sales Invoice Item",
   "fieldname": "custom_sale_type",
   "label": "Sale Type",
@@ -511,6 +546,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice Item-custom_sro_schedule_no",
   "dt": "Sales Invoice Item",
   "fieldname": "custom_sro_schedule_no",
   "label": "SRO Schedule No",
@@ -527,6 +563,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice Item-custom_sro_item_sno",
   "dt": "Sales Invoice Item",
   "fieldname": "custom_sro_item_sno",
   "label": "SRO Item SNo",
@@ -543,6 +580,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice Item-custom_tax_section",
   "dt": "Sales Invoice Item",
   "fieldname": "custom_tax_section",
   "label": "Tax Breakup (FBR)",
@@ -557,6 +595,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice Item-custom_sales_tax_rate",
   "dt": "Sales Invoice Item",
   "fieldname": "custom_sales_tax_rate",
   "label": "Sales Tax Rate",
@@ -572,6 +611,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice Item-custom_further_tax_rate",
   "dt": "Sales Invoice Item",
   "fieldname": "custom_further_tax_rate",
   "label": "Further Tax Rate",
@@ -587,6 +627,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice Item-custom_extra_tax_rate",
   "dt": "Sales Invoice Item",
   "fieldname": "custom_extra_tax_rate",
   "label": "Extra Tax Rate",
@@ -602,6 +643,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice Item-custom_col_break_fbr_item_2",
   "dt": "Sales Invoice Item",
   "fieldname": "custom_col_break_fbr_item_2",
   "label": "",
@@ -616,6 +658,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice Item-custom_other_tax_1_rate",
   "dt": "Sales Invoice Item",
   "fieldname": "custom_other_tax_1_rate",
   "label": "Other Tax 1 Rate",
@@ -631,6 +674,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice Item-custom_other_tax_2_rate",
   "dt": "Sales Invoice Item",
   "fieldname": "custom_other_tax_2_rate",
   "label": "Other Tax 2 Rate",
@@ -646,6 +690,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice Item-custom_tax_amount_section",
   "dt": "Sales Invoice Item",
   "fieldname": "custom_tax_amount_section",
   "label": "Tax Amounts (FBR)",
@@ -660,6 +705,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice Item-custom_sales_tax",
   "dt": "Sales Invoice Item",
   "fieldname": "custom_sales_tax",
   "label": "Sales Tax",
@@ -676,6 +722,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice Item-custom_further_tax",
   "dt": "Sales Invoice Item",
   "fieldname": "custom_further_tax",
   "label": "Further Tax",
@@ -692,6 +739,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice Item-custom_extra_tax",
   "dt": "Sales Invoice Item",
   "fieldname": "custom_extra_tax",
   "label": "Extra Tax",
@@ -708,6 +756,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice Item-custom_col_break_fbr_item_3",
   "dt": "Sales Invoice Item",
   "fieldname": "custom_col_break_fbr_item_3",
   "label": "",
@@ -722,6 +771,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice Item-custom_other_tax_1",
   "dt": "Sales Invoice Item",
   "fieldname": "custom_other_tax_1",
   "label": "Other Tax 1",
@@ -738,6 +788,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice Item-custom_other_tax_2",
   "dt": "Sales Invoice Item",
   "fieldname": "custom_other_tax_2",
   "label": "Other Tax 2",
@@ -754,6 +805,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice Item-custom_total_tax_amount",
   "dt": "Sales Invoice Item",
   "fieldname": "custom_total_tax_amount",
   "label": "Total Tax Amount",
@@ -770,6 +822,7 @@
  },
  {
   "doctype": "Custom Field",
+  "name": "Sales Invoice Item-custom_tax_inclusive_amount",
   "dt": "Sales Invoice Item",
   "fieldname": "custom_tax_inclusive_amount",
   "label": "Tax Inclusive Amount",
