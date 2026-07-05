@@ -1,4 +1,4 @@
-# FBR Integration (ERPNext / Frappe v15)
+# FBR Integration (ERPNext / Frappe v16)
 
 A ready-to-install Frappe app that connects ERPNext Sales Invoices to
 Pakistan's **FBR IRIS Digital Invoicing** system, built from the
@@ -34,9 +34,11 @@ calculation, the FBR API client, and the client-side "Send to FBR" button.
 
 ## Compatibility
 
-- Frappe: v15.x
-- ERPNext: v15.x
-- Python: >= 3.10
+- Frappe: v16.x
+- ERPNext: v16.x
+- Python: 3.14.x (Frappe v16's required interpreter version)
+
+> Upgrading from the v15 build of this app? See [Upgrading from v15](#upgrading-from-v15) below.
 
 ---
 
@@ -71,26 +73,18 @@ bench get-app https://github.com/<your-org>/fbr_integration.git --branch main
 bench --site site1.local install-app fbr_integration
 ```
 
-### System dependency: wkhtmltopdf (patched)
+### PDF / printing (no wkhtmltopdf needed)
 
-ERPNext's PDF/print flow (used for printing the FBR invoice with its QR code)
-needs the patched wkhtmltopdf build:
-
-```bash
-sudo apt install -y fontconfig xfonts-75dpi xfonts-base \
-  libxrender1 libxext6 libfontconfig1 libfreetype6 libjpeg-turbo8
-
-wget -O wkhtmltox.deb \
-  https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.jammy_amd64.deb
-sudo apt install -y ./wkhtmltox.deb
-wkhtmltopdf --version
-
-bench set-config -g wkhtmltopdf_path "$(which wkhtmltopdf)"
-bench restart
-```
+Frappe v16 ships a built-in **Chrome-based PDF generator**, so printing the
+FBR invoice (with its QR code) no longer requires installing wkhtmltopdf.
+Nothing to configure — it's the default. If a site was upgraded from v15 and
+still has `wkhtmltopdf_path` set in `common_site_config.json`, you can leave
+it or remove it; Print Settings lets you pick the PDF generator per-site if
+you ever need to switch back.
 
 Python dependencies (`requests`, `qrcode`, `pillow`, `python-barcode`) install
-automatically from `pyproject.toml` when the app is installed.
+automatically from `pyproject.toml` when the app is installed. Note the app
+now targets **Python 3.14** to match Frappe v16's runtime requirement.
 
 ---
 
@@ -145,6 +139,32 @@ bench --site site1.local execute fbr_integration.setup.install.after_install
   data model + integration logic; add your own Report/Workspace/Print Format
   fixtures under `fbr_integration/fixtures/` if you need them exported the
   same way custom fields are.
+
+---
+
+## Upgrading from v15
+
+This app was originally built against Frappe/ERPNext v15. If you're moving
+an existing site from v15 to v16:
+
+1. Upgrade the bench/site to Frappe & ERPNext v16 first (see the
+   [official v15 → v16 migration guide](https://github.com/frappe/frappe/wiki/Migrating-to-version-16)),
+   including moving the site's Python environment to 3.14.
+2. Replace this app's code in `apps/fbr_integration` with the v16 version
+   (this package), keeping the same `app_name` (`fbr_integration`) so
+   existing data/custom fields are recognized rather than duplicated.
+3. Run `bench --site <site> migrate` — fixtures are declarative, so any
+   custom fields that already exist are left as-is; only missing ones are
+   created.
+4. Nothing needs to change in **FBR Invoice Settings** — your Sandbox/
+   Production URLs and tokens carry over unchanged.
+5. Confirm printing still works: v16 defaults to the new Chrome-based PDF
+   generator, so remove any `wkhtmltopdf_path` override only if you want to
+   stop using wkhtmltopdf for other print formats too.
+6. Re-test the "Send to FBR" button in Sandbox mode before flipping any
+   Production invoices, since v16 changed some Desk form-controller and
+   list-view internals (see the [v16 release notes](https://frappe.io/framework/version-16))
+   that are unrelated to this app's logic but worth a smoke test.
 
 ---
 

@@ -1,14 +1,16 @@
 app_name = "fbr_integration"
 app_title = "FBR Integration"
 app_publisher = "FBR Pakistan / ERPNext Pakistan Community"
-app_description = "FBR (Federal Board of Revenue) Digital Invoicing Integration for ERPNext / Frappe v15"
+app_description = "FBR (Federal Board of Revenue) Digital Invoicing Integration for ERPNext / Frappe v16"
 app_email = "taimoor986@gmail.com"
 app_license = "MIT"
-app_version = "1.0.0"
+app_version = "2.0.0"
 
 # Required apps
 # ------------------
-required_apps = ["frappe", "erpnext"]
+# ERPNext v16.x is required (Sales Invoice / Sales Invoice Item / Item / Customer
+# doctypes this app extends). Frappe itself is implicit and doesn't need listing.
+required_apps = ["erpnext"]
 
 # Includes in <head>
 # ------------------

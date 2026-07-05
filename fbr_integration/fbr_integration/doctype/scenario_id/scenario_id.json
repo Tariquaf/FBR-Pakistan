@@ -8,7 +8,7 @@
  "editable_grid": 1,
  "track_changes": 1,
  "engine": "InnoDB",
- "sort_field": "modified",
+ "sort_field": "creation",
  "sort_order": "DESC",
  "autoname": "format:{scenario_id} - {scenario_detail}",
  "allow_rename": 1,
