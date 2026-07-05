@@ -1,0 +1,25 @@
+[project]
+name = "fbr_integration"
+authors = [
+	{ name = "ERPNext Pakistan / FBR Integration Community" }
+]
+description = "FBR (Federal Board of Revenue) Digital Invoicing Integration for ERPNext / Frappe v15"
+requires-python = ">=3.10"
+readme = "README.md"
+dynamic = ["version"]
+dependencies = [
+	"requests~=2.31",
+	"qrcode~=7.4",
+	"pillow",
+	"python-barcode~=0.15",
+]
+
+[build-system]
+requires = ["flit_core >=3.4,<4"]
+build-backend = "flit_core.buildapi"
+
+[tool.bench.dev-dependencies]
+# none for now
+
+[tool.ruff]
+line-length = 110

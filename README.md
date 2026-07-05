@@ -1,48 +1,171 @@
-<img src="https://github.com/user-attachments/assets/d23aa314-1b8b-4a67-a518-d3bde2aca452" width="200" align="left"/>
-<img src="https://github.com/user-attachments/assets/40c6f01b-d18d-4178-b507-cda0a9280e8f" width="200" align="right"/>
-<br clear="both"/>
-<hr/>
+# FBR Integration (ERPNext / Frappe v15)
 
-🚀 Create the Following Doctype for FBR Fields
--------------------------------------------
+A ready-to-install Frappe app that connects ERPNext Sales Invoices to
+Pakistan's **FBR IRIS Digital Invoicing** system, built from the
+[FBR-Pakistan integration guide](https://github.com/ERPNEXT-PAKISTAN/FBR-Pakistan).
 
-![image](https://github.com/user-attachments/assets/35bca23b-aa26-4d69-b440-ab0d44eea823)
-<hr/>
+Instead of manually creating doctypes/fields/scripts through the UI (as the
+original guide describes step-by-step), this package ships everything as
+installable app code: doctypes, custom fields (as fixtures), server-side tax
+calculation, the FBR API client, and the client-side "Send to FBR" button.
 
-![image](https://github.com/user-attachments/assets/3922ad36-7033-40dc-9a52-a87b2cd4f5bc)
-<hr/>
+---
 
-![image](https://github.com/user-attachments/assets/6562eaee-0355-469c-b54e-0027fe0abd95)
-<hr/>
+## Features
 
-![image](https://github.com/user-attachments/assets/6c04ecf3-d58e-4b90-ab7e-24fa74368f11)
-<hr/>
+- **One-click "Send to FBR"** button on submitted Sales Invoices
+- **Automatic tax breakup** (Sales Tax, Further Tax, Extra Tax, Other Tax 1/2)
+  computed from each line's Item Tax Template, both live in the browser and
+  again on save (server-side, authoritative)
+- **Full FBR response stored** on the Sales Invoice (invoice no., status,
+  status code, per-item statuses, raw response)
+- **9 FBR master doctypes** shipped with the app: HS Code, Scenario ID,
+  FBR UoM, SRO Item SNo, SRO Schedule No, Sale Type, Tax Payer Type,
+  Invoice Type, Buyer Province
+- **Master data auto-loaded on install** from the official FBR CSVs
+  (HS Codes, scenarios, provinces, UoMs, etc. — no manual Data Import needed)
+- **FBR Invoice Settings** — single doctype to toggle Sandbox/Production and
+  store API URL + Security Token (stored as a Password field)
+- Custom fields wired onto **Item**, **Customer**, **Sales Invoice**, and
+  **Sales Invoice Item** with `fetch_from` so HS Code/UoM/Sale Type/Tax Payer
+  Type/Buyer Province flow automatically from the Item and Customer masters
 
-![image](https://github.com/user-attachments/assets/b0a18be3-3b65-4888-83cc-c159210708a9)
-<hr/>
+---
 
-![image](https://github.com/user-attachments/assets/cb74614a-895a-4104-9a9c-6f3a2b28babc)
-<hr/>
+## Compatibility
 
-![image](https://github.com/user-attachments/assets/cb11656d-31f2-49f2-b4ad-5df29016a160)
-<hr/>
+- Frappe: v15.x
+- ERPNext: v15.x
+- Python: >= 3.10
 
-![image](https://github.com/user-attachments/assets/53e9ea68-337b-4afc-90d3-f787e8e57374)
-<hr/>
+---
 
-![image](https://github.com/user-attachments/assets/462d6a1a-6a01-47f5-8c9e-b5c1ac64e2a6)
-<hr/>
+## Installation
 
-<img width="1564" height="727" alt="image" src="https://github.com/user-attachments/assets/5fd999ef-e5db-4b6d-8252-22798508672a" />
+```bash
+cd ~/frappe-bench
 
-<hr/>
-<img width="1523" height="545" alt="image" src="https://github.com/user-attachments/assets/70752482-163c-43f9-b680-d0d52eb80135" />
-<hr/>
-<img width="1163" height="557" alt="image" src="https://github.com/user-attachments/assets/aa089804-12c2-4951-b870-6aab4bf9e01b" />
-<hr/>
-<img width="1247" height="645" alt="image" src="https://github.com/user-attachments/assets/d12b7af1-84a6-4626-b99d-d856264e27cb" />
-<hr/>
-<img width="1550" height="853" alt="image" src="https://github.com/user-attachments/assets/f0832aa1-d7ec-401e-99ac-e3525a951950" />
+# Copy this app into apps/fbr_integration, e.g. by extracting the provided
+# zip there, or by pushing it to your own git remote and using bench get-app.
+# If you already have it locally:
+cp -r /path/to/fbr_integration apps/fbr_integration
 
+bench --site site1.local install-app fbr_integration
+bench build
+bench --site site1.local migrate
+bench restart
+```
 
-<hr style="height:1px; background-color:#000; border:none;" />
+If you'd rather host it on GitHub first:
+
+```bash
+cd apps/fbr_integration
+git init
+git add .
+git commit -m "FBR Integration v1.0.0"
+git remote add origin https://github.com/<your-org>/fbr_integration.git
+git push -u origin main
+
+# On the target bench:
+bench get-app https://github.com/<your-org>/fbr_integration.git --branch main
+bench --site site1.local install-app fbr_integration
+```
+
+### System dependency: wkhtmltopdf (patched)
+
+ERPNext's PDF/print flow (used for printing the FBR invoice with its QR code)
+needs the patched wkhtmltopdf build:
+
+```bash
+sudo apt install -y fontconfig xfonts-75dpi xfonts-base \
+  libxrender1 libxext6 libfontconfig1 libfreetype6 libjpeg-turbo8
+
+wget -O wkhtmltox.deb \
+  https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.jammy_amd64.deb
+sudo apt install -y ./wkhtmltox.deb
+wkhtmltopdf --version
+
+bench set-config -g wkhtmltopdf_path "$(which wkhtmltopdf)"
+bench restart
+```
+
+Python dependencies (`requests`, `qrcode`, `pillow`, `python-barcode`) install
+automatically from `pyproject.toml` when the app is installed.
+
+---
+
+## Configuration
+
+1. Go to **FBR Invoice Settings** (single doctype).
+2. Check **Enabled**.
+3. Set **Integration Type** to `Sandbox` or `Production`.
+4. Fill in the matching **API URL** and **Security Token** (token is stored
+   as a Password field, not shown in the UI once saved).
+
+---
+
+## Usage
+
+1. On the **Item** master, set HS Code / FBR UoM / Sale Type / SRO Schedule
+   No / SRO Item SNo. On the **Customer** master, set Tax Payer Type / Buyer
+   Province. These fetch automatically onto new Sales Invoices and their
+   items.
+2. Create and submit a Sales Invoice as usual — the FBR tax breakup fields
+   recalculate on every save.
+3. Click **Send to FBR** (visible once the invoice is submitted).
+4. On success: the FBR Invoice No. and full response are stored on the
+   invoice, and a confirmation dialog is shown.
+
+---
+
+## Reference data
+
+Master data (HS Codes, Scenario IDs, Buyer Provinces, Sale Types, Tax Payer
+Types, Invoice Types, FBR UoM, SRO Schedule/Item numbers) is imported
+automatically the first time the app is installed, from the CSVs in
+`fbr_integration/data/`. To refresh it later (e.g. after an FBR HS Code
+update), re-run:
+
+```bash
+bench --site site1.local execute fbr_integration.setup.install.after_install
+```
+
+---
+
+## Extending / customizing
+
+- **Auto-send on submit instead of a button**: in `hooks.py`, uncomment the
+  `on_submit` line under `doc_events["Sales Invoice"]` (and remove/ignore the
+  client-side button if you don't want it visible).
+- **Different Chart of Accounts tax names**: update the `tax_type` string
+  matches in `fbr_integration/fbr_integration/tax_calculation.py` and
+  `public/js/sales_invoice.js` to match your own GL tax account labels
+  (defaults: General Sales Tax, Further Tax, Extra Tax, Other Tax 1, Other Tax 2).
+- **Reports/Workspace/Print Format**: this package intentionally ships the
+  data model + integration logic; add your own Report/Workspace/Print Format
+  fixtures under `fbr_integration/fixtures/` if you need them exported the
+  same way custom fields are.
+
+---
+
+## Troubleshooting
+
+**UnicodeDecodeError (0x96 / 0x92, etc.)** — re-save any JS/PY file you edit
+as UTF-8.
+
+**"FBR Integration is disabled"** — check **Enabled** in FBR Invoice
+Settings.
+
+**"Please configure the API URL and Security Token..."** — the Sandbox or
+Production URL/token fields are blank for the selected Integration Type.
+
+---
+
+## License / commercial use
+
+MIT — see `LICENSE`. This project can be distributed commercially.
+
+## Support
+
+Open an issue with your Frappe/ERPNext version, the exact error from the
+Error Log, and a screenshot if it's a UI issue.

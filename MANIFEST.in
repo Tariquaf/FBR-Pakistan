@@ -1,0 +1,18 @@
+include MANIFEST.in
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include fbr_integration *.csv
+recursive-include fbr_integration *.css
+recursive-include fbr_integration *.csv
+recursive-include fbr_integration *.html
+recursive-include fbr_integration *.ico
+recursive-include fbr_integration *.js
+recursive-include fbr_integration *.json
+recursive-include fbr_integration *.md
+recursive-include fbr_integration *.png
+recursive-include fbr_integration *.py
+recursive-include fbr_integration *.svg
+recursive-include fbr_integration *.txt
+recursive-exclude fbr_integration *.pyc
