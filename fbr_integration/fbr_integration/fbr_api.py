@@ -73,62 +73,169 @@ def build_address(address_name):
 	if not address_name:
 		return "", ""
 	address_doc = frappe.get_doc("Address", address_name)
-	address_line = ", ".join(filter(None, [address_doc.address_line1, address_doc.city]))
+	address_line = ", ".join(
+		filter(
+			None,
+			[
+				address_doc.address_line1,
+				address_doc.address_line2,
+				address_doc.city,
+				address_doc.district,
+				address_doc.country,
+			],
+		),
+	)
 	return address_line, (address_doc.state or "")
+
+
+def _format_percent(value):
+	"""Return a percent string or an empty string for invalid values."""
+	try:
+		number = float(value)
+		return "{:.2f}%".format(number)
+	except (TypeError, ValueError):
+		return ""
+
+
+def _normalize_registration_type(registration_type, tax_id):
+	"""Prefer an explicit registration type, otherwise infer it from buyer tax id."""
+	if registration_type:
+		return registration_type
+	if not tax_id:
+		return "Unregistered"
+	return "Registered"
+
+
+def _get_linked_address(field_name, link_name):
+	"""Return the first linked Address name for a named Customer/Company, if available."""
+	if not link_name:
+		return ""
+	return frappe.db.get_value("Address", {field_name: link_name}, "name")
+
+
+def _get_company_province(company_name):
+	"""Return the company province custom field if the explicit address does not provide it."""
+	if not company_name:
+		return ""
+	return frappe.db.get_value("Company", company_name, "custom_province") or ""
 
 
 def build_payload(doc):
 	seller_address, seller_province = build_address(getattr(doc, "company_address", None))
 	buyer_address, buyer_province = build_address(getattr(doc, "customer_address", None))
 
-	# Prefer the explicit link fields when set; fall back to values fetched onto the address
-	seller_province = seller_province or ""
+	if not seller_address and getattr(doc, "company", None):
+		seller_address, seller_province = build_address(_get_linked_address("company", doc.company))
+	if not buyer_address and getattr(doc, "customer", None):
+		buyer_address, buyer_province = build_address(_get_linked_address("customer", doc.customer))
+
 	buyer_province = doc.get("custom_buyer_province") or buyer_province
+	if not buyer_province and getattr(doc, "customer", None):
+		buyer_province = frappe.db.get_value("Customer", doc.customer, "custom_buyer_province") or buyer_province
+
+	seller_province = seller_province or _get_company_province(getattr(doc, "company", None))
+
+	buyer_registration_type = _normalize_registration_type(doc.get("custom_tax_payer_type"), doc.get("tax_id"))
+	invoice_type = doc.get("custom_invoice_type") or "Sale Invoice"
+
+	missing = [
+		name
+		for name, value in {
+			"invoiceType": invoice_type,
+			"invoiceDate": str(doc.posting_date) if getattr(doc, "posting_date", None) else "",
+			"sellerNTNCNIC": getattr(doc, "company_tax_id", ""),
+			"sellerBusinessName": getattr(doc, "company", ""),
+			"sellerAddress": seller_address,
+			"sellerProvince": seller_province,
+			"buyerBusinessName": getattr(doc, "customer", ""),
+			"buyerAddress": buyer_address,
+			"buyerProvince": buyer_province,
+			"scenarioId": doc.get("custom_scenario_id"),
+			"buyerRegistrationType": buyer_registration_type,
+		}.items()
+		if not value
+	]
+	if buyer_registration_type == "Registered" and not doc.get("tax_id"):
+		missing.append("buyerNTNCNIC")
+
+	if missing:
+		frappe.throw(
+			frappe._(
+				"Cannot build FBR payload. Missing required FBR field(s): {0}".format(
+					", ".join(missing)
+				)
+			),
+			title=frappe._("FBR Payload Validation"),
+		)
 
 	items_list = []
-	for item in doc.items:
+	for idx, item in enumerate(doc.items, start=1):
 		sale_type_str = str(item.get("custom_sale_type") or "").lower().replace(" ", "")
 		extra_tax = extra_tax_value(item.get("custom_extra_tax"), sale_type_str)
 
 		if doc.get("custom_scenario_id") == "SN006":
 			rate_val = "Exempt"
 		else:
-			rate_val = "{:.2f}%".format(safe_float(item.get("custom_sales_tax_rate")))
+			rate_val = _format_percent(item.get("custom_sales_tax_rate"))
+
+		item_uom = item.get("custom_fbr_uom") or item.get("uom") or item.get("stock_uom") or ""
+		item_hs_code = item.get("custom_hs_code") or ""
+
+		if not rate_val:
+			frappe.throw(
+				frappe._(
+					"Cannot build FBR payload. Item {0} is missing a valid FBR tax rate.".format(idx)
+				),
+				title=frappe._("FBR Payload Validation"),
+			)
+		if not item_uom:
+			frappe.throw(
+				frappe._(
+					"Cannot build FBR payload. Item {0} is missing an FBR UoM.".format(idx)
+				),
+				title=frappe._("FBR Payload Validation"),
+			)
 
 		items_list.append({
-			"hsCode": item.get("custom_hs_code"),
+			"hsCode": item_hs_code,
 			"productDescription": item.item_name,
 			"rate": rate_val,
-			"uoM": item.get("custom_fbr_uom"),
-			"quantity": safe_float(item.qty),
+			"uoM": item_uom,
+			"quantity": safe_float(getattr(item, "qty", None)),
 			"totalValues": safe_float(item.get("custom_tax_inclusive_amount")),
-			"valueSalesExcludingST": safe_float(item.amount),
-			"fixedNotifiedValueOrRetailPrice": safe_float(item.rate),
+			"valueSalesExcludingST": safe_float(getattr(item, "amount", None)),
+			"fixedNotifiedValueOrRetailPrice": safe_float(getattr(item, "rate", None)),
 			"salesTaxApplicable": safe_float(item.get("custom_sales_tax")),
-			"salesTaxWithheldAtSource": 0,
+			"salesTaxWithheldAtSource": safe_float(item.get("custom_sales_tax_withheld_at_source", 0)),
 			"extraTax": extra_tax,
 			"furtherTax": safe_float(item.get("custom_further_tax")),
-			"sroScheduleNo": item.get("custom_sro_schedule_no"),
-			"fedPayable": 0,
-			"discount": safe_float(item.discount_amount),
-			"saleType": item.get("custom_sale_type"),
-			"sroItemSerialNo": item.get("custom_sro_item_sno"),
+			"sroScheduleNo": item.get("custom_sro_schedule_no") or "",
+			"fedPayable": safe_float(item.get("custom_fed_payable", 0)),
+			"discount": safe_float(getattr(item, "discount_amount", 0)),
+			"saleType": item.get("custom_sale_type") or "Goods at standard rate (default)",
+			"sroItemSerialNo": item.get("custom_sro_item_sno") or "",
 		})
 
+	if not items_list:
+		frappe.throw(
+			frappe._("Cannot build FBR payload. Sales Invoice must contain at least one item."),
+			title=frappe._("FBR Payload Validation"),
+		)
+
 	return {
-		"invoiceType": doc.get("custom_invoice_type"),
+		"invoiceType": invoice_type,
 		"invoiceDate": str(doc.posting_date),
 		"sellerNTNCNIC": doc.company_tax_id,
 		"sellerBusinessName": doc.company,
 		"sellerAddress": seller_address,
 		"sellerProvince": seller_province,
-		"buyerNTNCNIC": doc.tax_id,
+		"buyerNTNCNIC": doc.tax_id or "",
 		"buyerBusinessName": doc.customer,
 		"buyerAddress": buyer_address,
 		"buyerProvince": buyer_province,
 		"invoiceRefNo": doc.name,
 		"scenarioId": doc.get("custom_scenario_id"),
-		"buyerRegistrationType": doc.get("custom_tax_payer_type"),
+		"buyerRegistrationType": buyer_registration_type,
 		"items": items_list,
 	}
 

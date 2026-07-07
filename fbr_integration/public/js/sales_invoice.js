@@ -40,28 +40,38 @@ function calculate_tax_preview(frm, cdt, cdn) {
 		fields: ["tax_type", "tax_rate"],
 	}).then((rows) => {
 		let sales = 0, further = 0, extra = 0, other1 = 0, other2 = 0;
+	let sales_rate = 0, further_rate = 0, extra_rate = 0, other1_rate = 0, other2_rate = 0;
 
-		rows.forEach((tax) => {
-			// Update these labels if your Chart of Accounts tax names differ
-			if (tax.tax_type.includes("General Sales Tax")) {
-				sales = (amount * (tax.tax_rate || 0)) / 100;
-			} else if (tax.tax_type.includes("Further Tax")) {
-				further = (amount * (tax.tax_rate || 0)) / 100;
-			} else if (tax.tax_type.includes("Extra Tax")) {
-				extra = (amount * (tax.tax_rate || 0)) / 100;
-			} else if (tax.tax_type.includes("Other Tax 1")) {
-				other1 = (amount * (tax.tax_rate || 0)) / 100;
-			} else if (tax.tax_type.includes("Other Tax 2")) {
-				other2 = (amount * (tax.tax_rate || 0)) / 100;
-			}
-		});
+	rows.forEach((tax) => {
+		// Update these labels if your Chart of Accounts tax names differ
+		if (tax.tax_type.includes("General Sales Tax")) {
+			sales_rate = tax.tax_rate || 0;
+			sales = (amount * sales_rate) / 100;
+		} else if (tax.tax_type.includes("Further Tax")) {
+			further_rate = tax.tax_rate || 0;
+			further = (amount * further_rate) / 100;
+		} else if (tax.tax_type.includes("Extra Tax")) {
+			extra_rate = tax.tax_rate || 0;
+			extra = (amount * extra_rate) / 100;
+		} else if (tax.tax_type.includes("Other Tax 1")) {
+			other1_rate = tax.tax_rate || 0;
+			other1 = (amount * other1_rate) / 100;
+		} else if (tax.tax_type.includes("Other Tax 2")) {
+			other2_rate = tax.tax_rate || 0;
+			other2 = (amount * other2_rate) / 100;
+		}
+	});
 
-		row.custom_sales_tax = sales;
-		row.custom_further_tax = further;
-		row.custom_extra_tax = extra;
-		row.custom_other_tax_1 = other1;
-		row.custom_other_tax_2 = other2;
-		row.custom_total_tax_amount = sales + further + extra + other1 + other2;
+	row.custom_sales_tax = sales;
+	row.custom_further_tax = further;
+	row.custom_extra_tax = extra;
+	row.custom_other_tax_1 = other1;
+	row.custom_other_tax_2 = other2;
+	row.custom_sales_tax_rate = sales_rate;
+	row.custom_further_tax_rate = further_rate;
+	row.custom_extra_tax_rate = extra_rate;
+	row.custom_other_tax_1_rate = other1_rate;
+	row.custom_other_tax_2_rate = other2_rate;
 		row.custom_tax_inclusive_amount = amount + row.custom_total_tax_amount;
 
 		frm.refresh_field("items");

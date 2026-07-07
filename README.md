@@ -168,6 +168,17 @@ an existing site from v15 to v16:
 
 ---
 
+## Tests
+
+This app includes a small unit test suite for FBR payload helper behavior.
+
+Run the tests from the app root:
+
+```bash
+cd /home/asad/frappe-bench/apps/fbr_integration
+python3 -m unittest discover -s tests
+```
+
 ## Troubleshooting
 
 **UnicodeDecodeError (0x96 / 0x92, etc.)** — re-save any JS/PY file you edit
