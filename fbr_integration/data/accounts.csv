@@ -1,0 +1,51 @@
+Account Name,Parent Account,Root Type,Is Group,Account Type,Tax Rate
+Current Liabilities,Source of Funds (Liabilities),Liability,1,,
+Duties and Taxes,Current Liabilities,Liability,1,Tax,
+Sales Tax on Goods,Duties and Taxes,Liability,1,Tax,
+Sales Tax - 3%,Sales Tax on Goods,Liability,0,Tax,3
+Sales Tax - 5%,Sales Tax on Goods,Liability,0,Tax,5
+Sales Tax - 10%,Sales Tax on Goods,Liability,0,Tax,10
+Sales Tax - 12%,Sales Tax on Goods,Liability,0,Tax,12
+Sales Tax - 15%,Sales Tax on Goods,Liability,0,Tax,15
+Sales Tax - 18% Standard,Sales Tax on Goods,Liability,0,Tax,18
+Sales Tax - 19%,Sales Tax on Goods,Liability,0,Tax,19
+Sales Tax - 20%,Sales Tax on Goods,Liability,0,Tax,20
+Sales Tax - 25%,Sales Tax on Goods,Liability,0,Tax,25
+Further Tax - 4% on Unregistered Supplies,Sales Tax on Goods,Liability,0,Tax,4
+Extra Tax - 2% for Industry Specific,Sales Tax on Goods,Liability,0,Tax,2
+Sales Tax on Services,Duties and Taxes,Liability,1,Tax,
+Punjab Revenue Authority (PRA),Sales Tax on Services,Liability,1,Tax,
+PRA Sales Tax - 0% Export for IT,Punjab Revenue Authority (PRA),Liability,0,Tax,0
+PRA Sales Tax - Exempted,Punjab Revenue Authority (PRA),Liability,0,Tax,0
+PRA Sales Tax - 1% Special,Punjab Revenue Authority (PRA),Liability,0,Tax,1
+PRA Sales Tax - 2% Special,Punjab Revenue Authority (PRA),Liability,0,Tax,2
+PRA Sales Tax - 5% Reduced Rate for IT,Punjab Revenue Authority (PRA),Liability,0,Tax,5
+PRA Sales Tax - 16% Standard,Punjab Revenue Authority (PRA),Liability,0,Tax,16
+PRA Sales Tax - 19.5% Telecommunication,Punjab Revenue Authority (PRA),Liability,0,Tax,19.5
+Sindh Revenue Board (SRB),Sales Tax on Services,Liability,1,Tax,
+SRB Sales Tax - Exempted,Sindh Revenue Board (SRB),Liability,0,Tax,0
+SRB Sales Tax - 3% Reduced (Hospitals/Clinics),Sindh Revenue Board (SRB),Liability,0,Tax,3
+SRB Sales Tax - 5% Distribution Services,Sindh Revenue Board (SRB),Liability,0,Tax,5
+SRB Sales Tax - 8% Restaurant (Digital Payment),Sindh Revenue Board (SRB),Liability,0,Tax,8
+SRB Sales Tax - 15% Standard,Sindh Revenue Board (SRB),Liability,0,Tax,15
+SRB Sales Tax - 15% Restaurant (Cash),Sindh Revenue Board (SRB),Liability,0,Tax,15
+SRB Sales Tax - 19.5% Telecommunication,Sindh Revenue Board (SRB),Liability,0,Tax,19.5
+Khyber Pakhtunkhwa Revenue Authority (KPRA),Sales Tax on Services,Liability,1,Tax,
+KPRA Sales Tax - Exempted,Khyber Pakhtunkhwa Revenue Authority (KPRA),Liability,0,Tax,0
+KPRA Sales Tax - 2% Ride-Hailing,Khyber Pakhtunkhwa Revenue Authority (KPRA),Liability,0,Tax,2
+KPRA Sales Tax - 2.5% IT Based Services,Khyber Pakhtunkhwa Revenue Authority (KPRA),Liability,0,Tax,2.5
+KPRA Sales Tax - 5% IT Consultancy,Khyber Pakhtunkhwa Revenue Authority (KPRA),Liability,0,Tax,5
+KPRA Sales Tax - 15% Standard,Khyber Pakhtunkhwa Revenue Authority (KPRA),Liability,0,Tax,15
+KPRA Sales Tax - 19.5% Telecommunication,Khyber Pakhtunkhwa Revenue Authority (KPRA),Liability,0,Tax,19.5
+Balochistan Revenue Authority (BRA),Sales Tax on Services,Liability,1,Tax,
+BRA Sales Tax - 0% Export (IT/Professional),Balochistan Revenue Authority (BRA),Liability,0,Tax,0
+BRA Sales Tax - Exempted,Balochistan Revenue Authority (BRA),Liability,0,Tax,0
+BRA Sales Tax - 6% IT and ITeS,Balochistan Revenue Authority (BRA),Liability,0,Tax,6
+BRA Sales Tax - 15% Standard,Balochistan Revenue Authority (BRA),Liability,0,Tax,15
+BRA Sales Tax - 19.5% Telecommunication,Balochistan Revenue Authority (BRA),Liability,0,Tax,19.5
+Islamabad Capital Territory (ICT),Sales Tax on Services,Liability,1,Tax,
+ICT Sales Tax - 0% Export for IT,Islamabad Capital Territory (ICT),Liability,0,Tax,0
+ICT Sales Tax - Exempted,Islamabad Capital Territory (ICT),Liability,0,Tax,0
+ICT Sales Tax - 5% Reduced Rate for IT,Islamabad Capital Territory (ICT),Liability,0,Tax,5
+ICT Sales Tax - 15% Standard,Islamabad Capital Territory (ICT),Liability,0,Tax,15
+ICT Sales Tax - 16% Standard (Select Services),Islamabad Capital Territory (ICT),Liability,0,Tax,16
