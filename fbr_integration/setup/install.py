@@ -37,6 +37,8 @@ def after_install():
 
 	_load_accounts()
 	_create_default_settings()
+	_create_tax_category()
+
 	frappe.db.commit()
 
 
@@ -186,3 +188,12 @@ def _create_default_settings():
 		settings.integration_type = "Sandbox"
 		settings.enabled = 0
 		settings.save(ignore_permissions=True)
+
+
+def _create_tax_category():
+    if frappe.db.exists("DocType", "Tax Category"):
+        for title in ("Registered", "Unregistered", "Exempt"):
+            if not frappe.db.exists("Tax Category", {"title": title}):
+                doc = frappe.new_doc("Tax Category")
+                doc.title = title
+                doc.insert(ignore_permissions=True)
