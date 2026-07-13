@@ -37,6 +37,7 @@ def after_install():
 
 	_load_accounts()
 	_create_default_settings()
+	_create_item_tax_templates_from_accounts()
 	_create_tax_category()
 
 	frappe.db.commit()
@@ -188,6 +189,126 @@ def _create_default_settings():
 		settings.integration_type = "Sandbox"
 		settings.enabled = 0
 		settings.save(ignore_permissions=True)
+
+
+def _create_single_item_tax_template(company, title, taxes):
+
+	if frappe.db.exists(
+		"Item Tax Template",
+		{
+			"title": title,
+			"company": company,
+		},
+	):
+		return
+
+	doc = frappe.new_doc("Item Tax Template")
+	doc.title = title
+	doc.company = company
+
+	for tax_type, tax_rate in taxes:
+		doc.append(
+			"taxes",
+			{
+				"tax_type": tax_type,
+				"tax_rate": tax_rate,
+				"not_applicable": 0,
+			},
+		)
+
+	doc.insert(ignore_permissions=True)
+	
+
+def _create_item_tax_templates_from_accounts():
+	for company in frappe.get_all("Company", pluck="name"):
+
+		sales_tax_accounts = frappe.get_all(
+			"Account",
+			filters={
+				"company": company,
+				"is_group": 0,
+				"account_name": ["like", "Sales Tax -%"],
+			},
+			fields=["name", "account_name", "tax_rate"],
+			order_by="account_name",
+		)
+
+		if not sales_tax_accounts:
+			continue
+
+		extra_tax = frappe.db.get_value(
+			"Account",
+			{
+				"company": company,
+				"is_group": 0,
+				"account_name": ["like", "%Extra Tax -%"],
+			},
+			["name", "tax_rate"],
+			as_dict=True,
+		)
+
+		further_tax = frappe.db.get_value(
+			"Account",
+			{
+				"company": company,
+				"is_group": 0,
+				"account_name": ["like", "%Further Tax -%"],
+			},
+			["name", "tax_rate"],
+			as_dict=True,
+		)
+
+		for sales in sales_tax_accounts:
+
+			_create_single_item_tax_template(
+				company=company,
+				title=f"{sales.account_name} (Registered)",
+				taxes=[
+					(sales.name, sales.tax_rate),
+				],
+			)
+
+			registered_extra = [
+				(sales.name, sales.tax_rate),
+			]
+
+			if extra_tax:
+				registered_extra.append((extra_tax.name, extra_tax.tax_rate))
+
+			_create_single_item_tax_template(
+				company=company,
+				title=f"{sales.account_name} (Registered + Extra)",
+				taxes=registered_extra,
+			)
+
+			unregistered = [
+				(sales.name, sales.tax_rate),
+			]
+
+			if further_tax:
+				unregistered.append((further_tax.name, further_tax.tax_rate))
+
+			_create_single_item_tax_template(
+				company=company,
+				title=f"{sales.account_name} (Unregistered)",
+				taxes=unregistered,
+			)
+
+			unregistered_extra = [
+				(sales.name, sales.tax_rate),
+			]
+
+			if extra_tax:
+				unregistered_extra.append((extra_tax.name, extra_tax.tax_rate))
+
+			if further_tax:
+				unregistered_extra.append((further_tax.name, further_tax.tax_rate))
+
+			_create_single_item_tax_template(
+				company=company,
+				title=f"{sales.account_name} (Unregistered + Extra)",
+				taxes=unregistered_extra,
+			)
 
 
 def _create_tax_category():
